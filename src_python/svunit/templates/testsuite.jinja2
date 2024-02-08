@@ -1,0 +1,44 @@
+module {{test_suite.class_name}};
+  import svunit_pkg::svunit_testsuite;
+
+  string name = "{{test_suite.instance_name}}";
+  svunit_testsuite svunit_ts;
+
+
+  //===================================
+  // These are the unit tests that we
+  // want included in this testsuite
+  //===================================
+  {% for unit_test in unit_tests %}
+  {{unit_test.class_name}} {{unit_test.instance_name}}();
+  {%- endfor %}
+
+
+  //===================================
+  // Build
+  //===================================
+  function void build();
+    {% for unit_test in unit_tests %}
+    {{unit_test.instance_name}}.build();
+    {%- endfor %}
+
+    svunit_ts = new(name);
+    {% for unit_test in unit_tests %}
+    svunit_ts.add_testcase({{unit_test.instance_name}}.svunit_ut);
+    {%- endfor %}
+  endfunction
+
+
+  //===================================
+  // Run
+  //===================================
+  task run();
+    svunit_ts.run();
+    {% for unit_test in unit_tests %}
+    {{unit_test.instance_name}}.run();
+    {%- endfor %}
+
+    svunit_ts.report();
+  endtask
+
+endmodule
