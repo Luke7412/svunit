@@ -43,3 +43,12 @@ xsim.dir/
 xvlog.pb
 xelab.pb
 xsim*.jou
+
+
+## Python
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Environments
+.venv
+
