@@ -33,14 +33,40 @@ def create_testsuite(output_file: Path, files_to_add: List[Union[UnitTest, TestS
 ################################################################################
 def parse_args():
     parser = argparse.ArgumentParser(description='Create Testrunner Script')
-    parser.add_argument('--out', metavar='<file>', dest='files_to_add', required=True, type=lambda p: Path(p))
-    parser.add_argument('--add', metavar='<filename>', dest='files_to_add', nargs='+', required=True, type=lambda p: Path(p))
-    parser.add_argument('--overwrite', action='store_true')
+    parser.add_argument(
+        '-out', 
+        metavar='<file>', 
+        dest='files_to_add', 
+        required=True, 
+        type=lambda p: Path(p),
+        help='specifies an output filename'
+    )
+    parser.add_argument(
+        '-add', 
+        metavar='<filename>', 
+        dest='files_to_add', 
+        nargs='+', 
+        required=True, 
+        type=lambda p: Path(p),
+        help='adds test to test suite'
+    )
+    parser.add_argument(
+        '-overwrite', 
+        action='store_true',
+        help='overwrites the output file if it already exists'
+    )
     return parser.parse_args()
+
+
+def validate_args(args):
+    if not args.overwrite and args.output_file.exists():
+        raise Exception('ERROR: The file already exists, to overwrite, use the -overwrite argument')
 
 
 if __name__ == '__main__':
     args = parse_args()
+    validate_args(args)
+
     create_testsuite(
         output_file=args.output_file,
         files_to_add=args.files_to_add,

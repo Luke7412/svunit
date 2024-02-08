@@ -37,14 +37,56 @@ def create_unit_test(args):
 ################################################################################
 def parse_args():
     parser = ArgumentParser(description='Create Unit Test Script')
-    parser.add_argument('--uvm', action='store_true', help='generate a uvm component test template. IMPORTANT: do not use "-uvm" unless the UUT is derived from a uvm_component')
-    parser.add_argument('--out', metavar='<file>', dest='output_file', type=lambda p: Path(p), help='specifies a new default output file')
-    parser.add_argument('--overwrite', action='store_true', help='overwrites the output file if it already exists')
+    parser.add_argument(
+        '-uvm', 
+        action='store_true', 
+        help='generate a uvm component test template. IMPORTANT: do not use "-uvm" unless the UUT is derived from a uvm_component'
+    )
+    parser.add_argument(
+        '-out', 
+        metavar='<file>', 
+        dest='output_file', 
+        type=lambda p: Path(p), 
+        help='specifies a new default output file'
+    )
+    parser.add_argument(
+        '-overwrite', 
+        action='store_true', 
+        help='overwrites the output file if it already exists'
+    )
+
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--class_name', metavar='<name>', type=str, help='generate a unit test template for a class <name>')
-    group.add_argument('--module_name', metavar='<name>', type=str, help='generate a unit test template for a module <name>')
-    group.add_argument('--if_name', metavar='<name>', type=str, help='generate a unit test template for an interface <name>')
-    group.add_argument('--file', metavar='uut.sv', type=lambda p: Path(p), help='the file with the unit under test')
+    group.add_argument(
+        '-class_name', 
+        metavar='<name>', 
+        type=str, 
+        help='generate a unit test template for a class <name>'
+    )
+    group.add_argument(
+        '-module_name', 
+        metavar='<name>', 
+        type=str, 
+        help='generate a unit test template for a module <name>'
+    )
+    group.add_argument(
+        '-if_name', 
+        metavar='<name>', 
+        type=str, 
+        help='generate a unit test template for an interface <name>'
+    )
+    group.add_argument(
+        '-p', 
+        metavar='<name>', 
+        type=str, 
+        help='generate a unit test template for an package <name>'
+    )
+
+    parser.add_argument(
+        'uut.sv',
+        metavar='testname', 
+        type=lambda p: Path(p), 
+        help='the file with the unit under test'
+    )
     return parser.parse_args()
 
 

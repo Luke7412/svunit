@@ -10,8 +10,8 @@ def generate_commands(args):
         cmd.extend(['-f', f'{file}'])
 
     # Add VHDL sources
-    if args.vhdl_file:
-        cmd.extend(['-f', args.vhdl_file])
+    if args.vhdlfile:
+        cmd.extend(['-f', args.vhdlfile])
 
     # Add SVUnit sources
     cmd.extend(['-f', '.svunit.f'])

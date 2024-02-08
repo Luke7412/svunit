@@ -20,8 +20,10 @@ module {{uut}}_unit_test;
   {{uut}} my_{{uut}};
   {%- endif %}
 
-  //---------------------------------------------------------------------------
+
+  //===================================
   // Build
+  //===================================
   function void build();
     svunit_ut = new(name);
   {%- if processing_class %}
@@ -35,8 +37,9 @@ module {{uut}}_unit_test;
   endfunction
 
 
-  //---------------------------------------------------------------------------
+  //===================================
   // Setup for running the Unit Tests
+  //===================================
   task setup();
     svunit_ut.setup();
     // Place Setup Code Here
@@ -50,8 +53,10 @@ module {{uut}}_unit_test;
   endtask
 
 
-  //---------------------------------------------------------------------------
-  // Here we deconstruct anything we  need after running the Unit Tests
+  //===================================
+  // Here we deconstruct anything we
+  // need after running the Unit Tests
+  //===================================
   task teardown();
     svunit_ut.teardown();
   {%- if uvm_test %}
@@ -67,20 +72,23 @@ module {{uut}}_unit_test;
   endtask
 
 
-  //---------------------------------------------------------------------------
-  // All tests are defined between the SVUNIT_TESTS_BEGIN/END macros
-  //
-  // Each individual test must be defined between 
-  // `SVTEST(_NAME_)
+  //===================================
+  // All tests are defined between the
+  // SVUNIT_TESTS_BEGIN/END macros
+  //\n";
+  // Each individual test must be
+  // defined between `SVTEST(_NAME_)
   // `SVTEST_END
   //
-  //---------------------------------------------------------------------------
+  // i.e.
+  //   `SVTEST(mytest)
+  //     <test code>
+  //   `SVTEST_END
+  //===================================
   `SVUNIT_TESTS_BEGIN
 
-    `SVTEST(mytest)
-       // test code
-    `SVTEST_END
-  
+
+
   `SVUNIT_TESTS_END
 
 endmodule

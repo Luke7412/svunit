@@ -51,7 +51,19 @@ module {{test_runner.class_name}}();
     {{test_suite.instance_name}}.build();
     svunit_tr.add_testsuite({{test_suite.instance_name}}.svunit_ts);
     {% endfor %}
+
+    {%if run_self_registered_tests %}
+    add_testsuites_for_self_registered_tests();
+    {% endif %}
   endfunction
+
+  {%if run_self_registered_tests %}
+  function automatic void add_testsuites_for_self_registered_tests();
+    svunit::testsuite testsuites[] = svunit::global_test_registry::get().get_testsuites();
+    foreach (testsuites[i])
+      svunit_tr.add_testsuite(testsuites[i]);
+  endfunction
+  {% endif %}
 
 
   //===================================
@@ -62,7 +74,25 @@ module {{test_runner.class_name}}();
     {{test_suite.instance_name}}.run();
     {%- endfor %}
 
+    {%if run_self_registered_tests %}
+    run_testsuites_for_self_registered_tests();
+    {% endif %}
+
     svunit_tr.report();
   endtask
+
+
+  {%if run_self_registered_tests %}
+  task automatic run_testsuites_for_self_registered_tests();
+    svunit::testsuite testsuites[] = svunit::global_test_registry::get().get_testsuites();
+    foreach (testsuites[i]) begin
+      svunit::testcase testcases[] = testsuites[i].get_testcases();
+      testsuites[i].run();
+      foreach (testcases[j])
+        testcases[j].run();
+      testsuites[i].report();
+    end
+  endtask
+  {% endif %}
 
 endmodule
